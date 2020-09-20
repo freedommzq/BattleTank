@@ -27,7 +27,57 @@ void ATankPlayerController::AimTowardsCrosshair()
 
 bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) const
 {
-	OutHitLocation = FVector(1.0);
+	// find crosshair position
+	int32 ViewportSizeX, ViewportSizeY;
+	GetViewportSize(ViewportSizeX, ViewportSizeY);
+	auto CrossHairPosition = FVector2D(ViewportSizeX * CrossHairXLocation, ViewportSizeY * CrossHairYLocation);
+
+	// de-project the screen position of the crosshair to the world direction
+	FVector LookDirection;	
+	if (!GetLookDirection(CrossHairPosition, LookDirection)) {
+		UE_LOG(LogTemp, Error, TEXT("get crosshair direction in world space failed!"));
+		return false;
+	}
+	else {
+		// line trace along the look direction
+		if (!GetLookVectorHitLocation(LookDirection, OutHitLocation)) {
+			return false;
+		}
+	}	
+
+	return true;
+}
+
+bool ATankPlayerController::GetLookDirection(FVector2D ScreenPosition, FVector& OutLookDirection) const
+{
+	FVector CameraWorldLocation; // this variable is ignored currently since it is useless
+	return DeprojectScreenPositionToWorld(
+		ScreenPosition.X,
+		ScreenPosition.Y,
+		CameraWorldLocation,
+		OutLookDirection
+	);
+}
+
+bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector& OutHitLocation) const
+{
+	FHitResult HitResultTemp;
+	auto StartPositon = PlayerCameraManager->GetCameraLocation();
+	auto EndPosition = StartPositon + LookDirection * LineTraceRange;
+
+	auto IsGetSuccess = GetWorld()->LineTraceSingleByChannel(
+		HitResultTemp,
+		StartPositon,
+		EndPosition,
+		ECC_Visibility
+	);
+
+	if (!IsGetSuccess) {
+		return false;
+	}
+
+	OutHitLocation = HitResultTemp.Location;
+
 	return true;
 }
 
