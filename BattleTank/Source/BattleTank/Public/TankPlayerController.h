@@ -2,10 +2,11 @@
 
 #pragma once
 
-#include "Tank.h"
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h"
+
+class ATank;
 
 /**
  * 
@@ -15,13 +16,14 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
+	friend class ATankAIController;
 public:	
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 
+private:
 	ATank* GetControlledTank() const;
 
-private:
 	// moving the barrel so that shot would hit where the crosshair intersect the world
 	void AimTowardsCrosshair();
 

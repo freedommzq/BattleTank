@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
+#include "Tank.h"
 #include "TankPlayerController.h"
 
 ATank* ATankPlayerController::GetControlledTank() const
@@ -14,14 +14,13 @@ void ATankPlayerController::AimTowardsCrosshair()
 		return;
 	}
 
-	// TODO Get the world position where the crosshair intersect
 	FVector HitLocation;
 	if (!GetSightRayHitLocation(HitLocation)) {
 		UE_LOG(LogTemp, Warning, TEXT("TankPlayerController AimTowardsCrosshair: the crosshair hit nothing."));
 	}
 	else {
 		// then, if it hits the landscape, control tank to aim at this point
-		UE_LOG(LogTemp, Warning, TEXT("TankPlayerController AimTowardsCrosshair: the crosshair hit at %s."), *HitLocation.ToString());
+		GetControlledTank()->AimAt(HitLocation);
 	}
 }
 
@@ -85,14 +84,13 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	auto tank_t = GetControlledTank();
-	if (!tank_t) {
-		UE_LOG(LogTemp, Error, TEXT("TankPlayerController BeginPlay: can't get controlled tank!"));
-	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("TankPlayerController BeginPlay: %s"), *tank_t->GetName());
-	}
-
+	//auto tank_t = GetControlledTank();
+	//if (!tank_t) {
+	//	UE_LOG(LogTemp, Error, TEXT("TankPlayerController BeginPlay: can't get controlled tank!"));
+	//}
+	//else {
+	//	UE_LOG(LogTemp, Warning, TEXT("TankPlayerController BeginPlay: %s"), *tank_t->GetName());
+	//}
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
