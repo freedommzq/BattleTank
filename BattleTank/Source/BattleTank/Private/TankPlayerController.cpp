@@ -50,6 +50,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 bool ATankPlayerController::GetLookDirection(FVector2D ScreenPosition, FVector& OutLookDirection) const
 {
 	FVector CameraWorldLocation; // this variable is ignored currently since it is useless
+
 	return DeprojectScreenPositionToWorld(
 		ScreenPosition.X,
 		ScreenPosition.Y,
@@ -84,13 +85,6 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//auto tank_t = GetControlledTank();
-	//if (!tank_t) {
-	//	UE_LOG(LogTemp, Error, TEXT("TankPlayerController BeginPlay: can't get controlled tank!"));
-	//}
-	//else {
-	//	UE_LOG(LogTemp, Warning, TEXT("TankPlayerController BeginPlay: %s"), *tank_t->GetName());
-	//}
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
