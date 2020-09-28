@@ -15,12 +15,12 @@ void ATankPlayerController::AimTowardsCrosshair()
 	}
 
 	FVector HitLocation;
-	if (!GetSightRayHitLocation(HitLocation)) {
-		UE_LOG(LogTemp, Warning, TEXT("TankPlayerController AimTowardsCrosshair: the crosshair hit nothing."));
-	}
-	else {
+	if (GetSightRayHitLocation(HitLocation)) {
 		// then, if it hits the landscape, control tank to aim at this point
 		GetControlledTank()->AimAt(HitLocation);
+	}
+	else {
+		UE_LOG(LogTemp, Error, TEXT("Get HitLocation failed!"));	
 	}
 }
 
@@ -34,7 +34,6 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 	// de-project the screen position of the crosshair to the world direction
 	FVector LookDirection;	
 	if (!GetLookDirection(CrossHairPosition, LookDirection)) {
-		UE_LOG(LogTemp, Error, TEXT("get crosshair direction in world space failed!"));
 		return false;
 	}
 	else {
@@ -85,6 +84,13 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
+	auto playerTank_t = GetControlledTank();
+	if (!playerTank_t) {
+		UE_LOG(LogTemp, Error, TEXT("PlayerTank not found!"));
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("PlayerTank: %s"), *playerTank_t->GetName());
+	}
 }
 
 void ATankPlayerController::Tick(float DeltaTime)

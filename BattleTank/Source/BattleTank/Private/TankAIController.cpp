@@ -10,18 +10,10 @@ void ATankAIController::BeginPlay()
 
 	auto aiTank_t = GetControlledTank();
 	if (!aiTank_t) {
-		UE_LOG(LogTemp, Error, TEXT("TankAIController BeginPlay: can't get controlled tank!"));
+		UE_LOG(LogTemp, Error, TEXT("AITank not found!"));
 	}
 	else {
-		UE_LOG(LogTemp, Warning, TEXT("TankAIController BeginPlay: controlled tank is %s"), *aiTank_t->GetName());
-	}
-
-	auto playerTank_t = GetPlayerTank();
-	if (!playerTank_t) {
-		UE_LOG(LogTemp, Error, TEXT("TankAIController BeginPlay: can't get player tank!"));
-	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("TankAIController BeginPlay: player tank is %s"), *playerTank_t->GetName());
+		UE_LOG(LogTemp, Warning, TEXT("AITank: %s"), *aiTank_t->GetName());
 	}
 }
 
@@ -41,13 +33,11 @@ ATank* ATankAIController::GetPlayerTank() const
 {
 	auto pc_t = GetWorld()->GetFirstPlayerController();
 	if (!pc_t) {
-		UE_LOG(LogTemp, Error, TEXT("TankAIController GetPlayerTank: can't get player controller!"));
 		return nullptr;
 	}
 
 	auto tpc_t = Cast<ATankPlayerController>(pc_t);
 	if (!tpc_t) {
-		UE_LOG(LogTemp, Error, TEXT("TankAIController GetPlayerTank: controller cast failed!"));
 		return nullptr;
 	}
 
@@ -63,6 +53,8 @@ void ATankAIController::ReactToPlayer()
 	// aim at the player
 	GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
 
-	// TODO move towards the player
+	// TODO if out of range, move towards the player
+
 	// TODO fire if ready
+	GetControlledTank()->Fire();
 }
