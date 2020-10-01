@@ -39,9 +39,6 @@ protected:
 protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
-	UPROPERTY(BlueprintReadOnly, Category = Moving)
-	UTankMovementComponent* TankMovementComponent = nullptr;
-
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
