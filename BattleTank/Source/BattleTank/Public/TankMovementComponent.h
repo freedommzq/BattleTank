@@ -23,6 +23,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Action)
 	void IntendMoveForward(float Throw);
 
+	UFUNCTION(BlueprintCallable, Category = Action)
+	void IntendTurnRight(float Throw);
+
 private:
 	UTankTrack* LeftTrack = nullptr;
 	UTankTrack* RightTrack = nullptr;
