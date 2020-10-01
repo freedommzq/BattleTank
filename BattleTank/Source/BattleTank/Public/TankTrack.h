@@ -19,5 +19,5 @@ public:
 	void SetThrottle(float Throttle);
 
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
-	float MaxDrivingForce = 400000.0; // unit is Newton, calculate by mass * acceleration
+	float MaxDrivingForce = 40000000.0; // it is 400,000 (since the unreal use centimeter as unit of length), calculate by mass * acceleration
 };

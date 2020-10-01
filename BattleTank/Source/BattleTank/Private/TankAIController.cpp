@@ -50,11 +50,9 @@ void ATankAIController::ReactToPlayer()
 		return;
 	}
 
-	// aim at the player
 	GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
 
 	// TODO if out of range, move towards the player
 
-	// TODO fire if ready
-	GetControlledTank()->Fire();
+	//GetControlledTank()->Fire();
 }
