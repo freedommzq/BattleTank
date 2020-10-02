@@ -48,9 +48,6 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		MoveTurretTowards(AimDirection);
 		MoveBarrelTowards(AimDirection);
 	}
-	else {
-		UE_LOG(LogTemp, Error, TEXT("%f: AimDirection not found."), GetWorld()->GetTimeSeconds());
-	}
 }
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
