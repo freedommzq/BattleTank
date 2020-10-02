@@ -16,7 +16,6 @@ void UTankMovementComponent::IntendMoveForward(float Throw)
 		return;
 	}
 
-	//TODO prevent double-speed, since the 'A' & 'D' will also give a speed
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
 }
@@ -33,14 +32,13 @@ void UTankMovementComponent::IntendTurnRight(float Throw)
 
 void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
 {
-	//UE_LOG(LogTemp, Warning, TEXT("%s MoveVelocity is %s"), *GetOwner()->GetName(), *MoveVelocity.ToString());
-
 	auto IntendVector = MoveVelocity.GetSafeNormal();
 	auto ForwardVector = GetOwner()->GetActorForwardVector().GetSafeNormal();
 
 	auto MoveThrow = FVector::DotProduct(IntendVector, ForwardVector);
 	IntendMoveForward(MoveThrow);
 
-	auto TurnThrow = FVector::CrossProduct(IntendVector, ForwardVector).Z;
+	//auto TurnThrow = FVector::CrossProduct(IntendVector, ForwardVector).Z;
+	auto TurnThrow = FVector::CrossProduct(ForwardVector, IntendVector).Z;
 	IntendTurnRight(TurnThrow);
 }

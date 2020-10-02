@@ -26,6 +26,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Action)
 	void IntendTurnRight(float Throw);
 
+protected:
+	// Called by the path-finding logic in the AI controller
 	virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
 
 private:
