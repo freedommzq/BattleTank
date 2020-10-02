@@ -24,4 +24,7 @@ private:
 	ATank* GetControlledTank() const;
 	ATank* GetPlayerTank() const;
 	void ReactToPlayer();
+
+private:
+	float MaxFireRange = 3000.0; // 30m
 };
