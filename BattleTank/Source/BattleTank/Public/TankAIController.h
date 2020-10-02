@@ -26,5 +26,5 @@ private:
 	void ReactToPlayer();
 
 private:
-	float MaxFireRange = 3000.0; // 30m
+	float MaxFireRange = 2000.0; // 20m
 };
