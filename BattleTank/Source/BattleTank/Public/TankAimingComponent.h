@@ -37,21 +37,21 @@ public:
 	void Fire();
 
 protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
-
 	// Since we only need to set the aim point's color by this status, "BlueprintReadOnly" is enough
-	// And we need to get it from a derived class, so the protected is needed as well
+	// And we need to read it, so the protected is needed as well
 	UPROPERTY(BlueprintReadOnly)
 	EFiringStatus FiringStatus = EFiringStatus::Locked;
 
-public:	
+private:
+	// Called when the game starts
+	virtual void BeginPlay() override;
+
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-private:
-	void MoveBarrelTowards(FVector AimDirection);
-	void MoveTurretTowards(FVector AimDirection);
+	void MoveBarrelTowards();
+	void MoveTurretTowards();
+	bool IsBarrelMoving() const;
 
 private:
 	UTankBarrel* Barrel = nullptr;
@@ -67,4 +67,6 @@ private:
 	TSubclassOf<AProjectile> ProjectileClass;
 
 	double LastFireTime = 0.0;
+
+	FVector AimDirection;
 };
