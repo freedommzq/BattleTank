@@ -20,4 +20,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	float MaxDrivingForce = 40000000.0; // it is 400,000 (since the unreal use centimeter as unit of length), calculate by mass * acceleration
+
+private:
+	UTankTrack();
+
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 };
