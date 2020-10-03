@@ -2,6 +2,7 @@
 
 
 #include "Projectile.h"
+
 #include "GameFramework/ProjectileMovementComponent.h"
 
 // Sets default values

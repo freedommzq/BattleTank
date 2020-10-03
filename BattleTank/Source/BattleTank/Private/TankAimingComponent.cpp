@@ -1,8 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "TankAimingComponent.h"
+
 #include "TankBarrel.h"
 #include "TankTurret.h"
-#include "TankAimingComponent.h"
+#include "Projectile.h"
+
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
@@ -11,8 +14,6 @@ UTankAimingComponent::UTankAimingComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
 }
 
 
@@ -22,7 +23,7 @@ void UTankAimingComponent::Init(UTankBarrel* BarrelToSet, UTankTurret* TurretToS
 	Turret = TurretToSet;
 }
 
-void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
+void UTankAimingComponent::AimAt(FVector HitLocation)
 {
 	if (!ensure(Barrel)) {	
 		return;
@@ -51,6 +52,33 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveTurretTowards(AimDirection);
 		MoveBarrelTowards(AimDirection);
+	}
+}
+
+void UTankAimingComponent::Fire()
+{
+	if (!ensure(ProjectileClass)) {
+		return;
+	}
+
+	bool IsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
+	if (!IsReloaded) {
+		return;
+	}
+	else {
+		LastFireTime = FPlatformTime::Seconds();
+	}
+
+	if (!ensure(Barrel)) {
+		return;
+	}
+
+	auto ProjectileLocation = Barrel->GetSocketLocation(FName("Projectile"));
+	auto ProjectileRotation = Barrel->GetSocketRotation(FName("Projectile"));
+	auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileClass, ProjectileLocation, ProjectileRotation);
+
+	if (ensure(Projectile)) {
+		Projectile->LaunchProjectile(LaunchSpeed);
 	}
 }
 

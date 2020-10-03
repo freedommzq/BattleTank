@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Tank.h"
-#include "TankPlayerController.h"
 #include "TankAIController.h"
+
+#include "TankAimingComponent.h"
 
 void ATankAIController::BeginPlay()
 {
@@ -16,35 +16,18 @@ void ATankAIController::Tick(float DeltaTime)
 	ReactToPlayer();
 }
 
-ATank* ATankAIController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
-
-ATank* ATankAIController::GetPlayerTank() const
-{
-	auto pc_t = GetWorld()->GetFirstPlayerController();
-	if (!pc_t) {
-		return nullptr;
-	}
-
-	auto tpc_t = Cast<ATankPlayerController>(pc_t);
-	if (!tpc_t) {
-		return nullptr;
-	}
-
-	return tpc_t->GetControlledTank();
-}
-
 void ATankAIController::ReactToPlayer()
 {
-	if (!ensure(GetControlledTank() && GetPlayerTank())) {
+	auto PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
+	if (!ensure(GetPawn() && PlayerPawn)) {
 		return;
 	}
 
-	MoveToActor(GetPlayerTank(), MaxFireRange);
+	MoveToActor(PlayerPawn, MaxFireRange);
 
-	GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
-
-	//GetControlledTank()->Fire();
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (ensure(AimingComponent)) {
+		AimingComponent->AimAt(PlayerPawn->GetActorLocation());
+		AimingComponent->Fire();
+	}
 }

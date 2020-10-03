@@ -6,8 +6,6 @@
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h"
 
-class ATank;
-
 /**
  * 
  */
@@ -26,8 +24,6 @@ protected:
 	void FoundAimingComponent(UTankAimingComponent* AimingComponent);
 
 private:
-	ATank* GetControlledTank() const;
-
 	// moving the barrel so that shot would hit where the crosshair intersect the world
 	void AimTowardsCrosshair();
 

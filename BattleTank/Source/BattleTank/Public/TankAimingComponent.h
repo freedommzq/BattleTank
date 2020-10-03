@@ -16,6 +16,7 @@ enum class EFiringStatus : uint8
 
 class UTankBarrel;
 class UTankTurret;
+class AProjectile;
 
 // Hold the barrel's parameter
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -30,7 +31,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Init(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
-	void AimAt(FVector HitLocation, float LaunchSpeed);
+	void AimAt(FVector HitLocation);
+
+	UFUNCTION(BlueprintCallable, Category = "Action")
+	void Fire();
 
 protected:
 	// Called when the game starts
@@ -39,7 +43,7 @@ protected:
 	// Since we only need to set the aim point's color by this status, "BlueprintReadOnly" is enough
 	// And we need to get it from a derived class, so the protected is needed as well
 	UPROPERTY(BlueprintReadOnly)
-	EFiringStatus FiringStatus = EFiringStatus::Aiming;
+	EFiringStatus FiringStatus = EFiringStatus::Locked;
 
 public:	
 	// Called every frame
@@ -52,4 +56,15 @@ private:
 private:
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	float LaunchSpeed = 10000.0;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	float ReloadTimeInSeconds = 3.0;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	TSubclassOf<AProjectile> ProjectileClass;
+
+	double LastFireTime = 0.0;
 };
