@@ -39,7 +39,7 @@ protected:
 	// Since we only need to set the aim point's color by this status, "BlueprintReadOnly" is enough
 	// And we need to get it from a derived class, so the protected is needed as well
 	UPROPERTY(BlueprintReadOnly)
-	EFiringStatus FiringStatus = EFiringStatus::Locked;
+	EFiringStatus FiringStatus = EFiringStatus::Aiming;
 
 public:	
 	// Called every frame

@@ -22,10 +22,12 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 protected:
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	ATank* GetControlledTank() const;
+	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
+	void FoundAimingComponent(UTankAimingComponent* AimingComponent);
 
 private:
+	ATank* GetControlledTank() const;
+
 	// moving the barrel so that shot would hit where the crosshair intersect the world
 	void AimTowardsCrosshair();
 
