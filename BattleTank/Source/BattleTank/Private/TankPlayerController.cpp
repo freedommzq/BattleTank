@@ -20,9 +20,9 @@ void ATankPlayerController::AimTowardsCrosshair()
 		// then, if it hits the landscape, control tank to aim at this point
 		GetControlledTank()->AimAt(HitLocation);
 	}
-	//else {
-	//	UE_LOG(LogTemp, Warning, TEXT("Get HitLocation failed!"));	
-	//}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("Get HitLocation failed!"));	
+	}
 }
 
 bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) const
@@ -85,20 +85,9 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	auto playerTank_t = GetControlledTank();
-	if (!playerTank_t) {
-		UE_LOG(LogTemp, Warning, TEXT("PlayerTank not found!"));
-	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("PlayerTank: %s"), *playerTank_t->GetName());
-	}
-
 	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
-	if (AimingComponent) {
+	if (ensure(AimingComponent)) {
 		FoundAimingComponent(AimingComponent);
-	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("PlayerTank %s not found its Aiming Component!"), *playerTank_t->GetName());
 	}
 }
 

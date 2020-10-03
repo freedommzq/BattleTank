@@ -7,14 +7,6 @@
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
-
-	auto aiTank_t = GetControlledTank();
-	if (!aiTank_t) {
-		UE_LOG(LogTemp, Warning, TEXT("AITank not found!"));
-	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("AITank: %s"), *aiTank_t->GetName());
-	}
 }
 
 void ATankAIController::Tick(float DeltaTime)

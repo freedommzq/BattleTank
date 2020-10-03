@@ -4,9 +4,7 @@
 #include "Tank.h"
 #include "Projectile.h"
 #include "TankBarrel.h"
-#include "TankTurret.h"
 #include "TankAimingComponent.h"
-#include "TankMovementComponent.h"
 
 // Sets default values
 ATank::ATank()
@@ -47,7 +45,7 @@ void ATank::Fire()
 	auto ProjectileRotation = Barrel->GetSocketRotation(FName("Projectile"));
 	auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileClass, ProjectileLocation, ProjectileRotation);
 
-	if (Projectile) {
+	if (ensure(Projectile)) {
 		Projectile->LaunchProjectile(LaunchSpeed);
 	}
 }
@@ -56,19 +54,19 @@ void ATank::Fire()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
+
+	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
 }
 
 // Called every frame
 void ATank::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input
 void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 
