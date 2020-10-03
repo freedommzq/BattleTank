@@ -11,7 +11,7 @@ ATank* ATankPlayerController::GetControlledTank() const
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!GetControlledTank()) {
+	if (!ensure(GetControlledTank())) {
 		return;
 	}
 
@@ -20,9 +20,9 @@ void ATankPlayerController::AimTowardsCrosshair()
 		// then, if it hits the landscape, control tank to aim at this point
 		GetControlledTank()->AimAt(HitLocation);
 	}
-	else {
-		UE_LOG(LogTemp, Error, TEXT("Get HitLocation failed!"));	
-	}
+	//else {
+	//	UE_LOG(LogTemp, Warning, TEXT("Get HitLocation failed!"));	
+	//}
 }
 
 bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) const
@@ -87,10 +87,10 @@ void ATankPlayerController::BeginPlay()
 
 	auto playerTank_t = GetControlledTank();
 	if (!playerTank_t) {
-		UE_LOG(LogTemp, Error, TEXT("PlayerTank not found!"));
+		UE_LOG(LogTemp, Warning, TEXT("PlayerTank not found!"));
 	}
 	else {
-		UE_LOG(LogTemp, Warning, TEXT("PlayerTank: %s"));
+		UE_LOG(LogTemp, Warning, TEXT("PlayerTank: %s"), *playerTank_t->GetName());
 	}
 
 	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
@@ -98,7 +98,7 @@ void ATankPlayerController::BeginPlay()
 		FoundAimingComponent(AimingComponent);
 	}
 	else {
-		UE_LOG(LogTemp, Error, TEXT("PlayerTank %s not found its Aiming Component!"), *playerTank_t->GetName());
+		UE_LOG(LogTemp, Warning, TEXT("PlayerTank %s not found its Aiming Component!"), *playerTank_t->GetName());
 	}
 }
 

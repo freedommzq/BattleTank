@@ -24,13 +24,11 @@ void UTankAimingComponent::Init(UTankBarrel* BarrelToSet, UTankTurret* TurretToS
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
-	if (!Barrel) {	
-		UE_LOG(LogTemp, Error, TEXT("No Barrel."));
+	if (!ensure(Barrel)) {	
 		return;
 	}
 
-	if (!Turret) {
-		UE_LOG(LogTemp, Error, TEXT("No Turret."));
+	if (!ensure(Turret)) {
 		return;
 	}
 
@@ -76,7 +74,7 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {	
-	if (!Barrel) {
+	if (!ensure(Barrel)) {
 		return;
 	}
 
@@ -89,7 +87,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 
 void UTankAimingComponent::MoveTurretTowards(FVector AimDirection)
 {
-	if (!Turret) {
+	if (!ensure(Turret)) {
 		return;
 	}
 

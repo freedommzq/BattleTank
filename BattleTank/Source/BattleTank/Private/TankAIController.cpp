@@ -10,7 +10,7 @@ void ATankAIController::BeginPlay()
 
 	auto aiTank_t = GetControlledTank();
 	if (!aiTank_t) {
-		UE_LOG(LogTemp, Error, TEXT("AITank not found!"));
+		UE_LOG(LogTemp, Warning, TEXT("AITank not found!"));
 	}
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("AITank: %s"), *aiTank_t->GetName());
@@ -46,7 +46,7 @@ ATank* ATankAIController::GetPlayerTank() const
 
 void ATankAIController::ReactToPlayer()
 {
-	if (!GetControlledTank() || !GetPlayerTank()) {
+	if (!ensure(GetControlledTank() && GetPlayerTank())) {
 		return;
 	}
 

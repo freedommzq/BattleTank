@@ -13,13 +13,11 @@ ATank::ATank()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-
-	UE_LOG(LogTemp, Warning, TEXT("%s mzq: C++ Construct"), *GetName());
 }
 
 void ATank::AimAt(FVector HitLocation)
 {
-	if (!TankAimingComponent) {
+	if (!ensure(TankAimingComponent)) {
 		return;
 	}
 
@@ -34,14 +32,14 @@ void ATank::SetBarrelReference(UTankBarrel* BarrelToSet)
 void ATank::Fire()
 {
 	bool IsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
-	if (!IsReloaded) {
+	if (!ensure(IsReloaded)) {
 		return;
 	}
 	else {
 		LastFireTime = FPlatformTime::Seconds();
 	}
 	
-	if (!Barrel) {
+	if (!ensure(Barrel)) {
 		return;
 	}
 
@@ -58,8 +56,6 @@ void ATank::Fire()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	UE_LOG(LogTemp, Warning, TEXT("%s mzq: C++ BeginPlay"), *GetName());
 }
 
 // Called every frame
