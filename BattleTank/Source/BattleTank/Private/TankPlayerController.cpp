@@ -37,6 +37,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 	}
 	else {
 		// line trace along the look direction
+		// TODO If the camera move down to the ground, the hit point will on the ground
 		if (!GetLookVectorHitLocation(LookDirection, OutHitLocation)) {
 			return false;
 		}
