@@ -29,7 +29,7 @@ void ATankAIController::ReactToPlayer()
 	if (ensure(AimingComponent)) {
 		AimingComponent->AimAt(PlayerPawn->GetActorLocation());
 		if (AimingComponent->GetFiringStatus() == EFiringStatus::Locked) {
-			AimingComponent->Fire();		
+			//AimingComponent->Fire();		
 		}
 	}
 }

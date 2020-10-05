@@ -61,7 +61,7 @@ void UTankAimingComponent::Fire()
 		return;
 	}
 
-	if (FiringStatus == EFiringStatus::Reloading) {
+	if (FiringStatus == EFiringStatus::Reloading || FiringStatus == EFiringStatus::OutOfAmmo) {
 		return;
 	}
 
@@ -76,6 +76,7 @@ void UTankAimingComponent::Fire()
 	if (ensure(Projectile)) {
 		Projectile->LaunchProjectile(LaunchSpeed);
 		LastFireTime = FPlatformTime::Seconds();
+		--AmmoCount;
 	}
 }
 
@@ -97,6 +98,11 @@ void UTankAimingComponent::BeginPlay()
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	if (AmmoCount <= 0) {
+		FiringStatus = EFiringStatus::OutOfAmmo;
+		return;
+	}
 
 	bool IsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
 	if (!IsReloaded) {
@@ -148,5 +154,5 @@ bool UTankAimingComponent::IsBarrelMoving() const
 	}
 
 	auto BarrelForward = Barrel->GetForwardVector().GetSafeNormal();
-	return !BarrelForward.Equals(AimDirection);
+	return !BarrelForward.Equals(AimDirection, 0.01);
 }

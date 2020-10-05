@@ -11,7 +11,8 @@ enum class EFiringStatus : uint8
 {
 	Reloading,
 	Aiming,
-	Locked
+	Locked,
+	OutOfAmmo
 };
 
 class UTankBarrel;
@@ -43,6 +44,9 @@ protected:
 	// And we need to read it, so the protected is needed as well
 	UPROPERTY(BlueprintReadOnly)
 	EFiringStatus FiringStatus = EFiringStatus::Locked;
+
+	UPROPERTY(BlueprintReadOnly)
+	int AmmoCount = 3;
 
 private:
 	// Called when the game starts
