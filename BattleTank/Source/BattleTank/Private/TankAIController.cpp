@@ -28,6 +28,8 @@ void ATankAIController::ReactToPlayer()
 	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (ensure(AimingComponent)) {
 		AimingComponent->AimAt(PlayerPawn->GetActorLocation());
-		//AimingComponent->Fire();
+		if (AimingComponent->GetFiringStatus() == EFiringStatus::Locked) {
+			AimingComponent->Fire();		
+		}
 	}
 }

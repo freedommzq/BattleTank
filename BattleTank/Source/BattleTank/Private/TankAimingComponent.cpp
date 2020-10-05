@@ -79,6 +79,11 @@ void UTankAimingComponent::Fire()
 	}
 }
 
+EFiringStatus UTankAimingComponent::GetFiringStatus() const
+{
+	return FiringStatus;
+}
+
 // Called when the game starts
 void UTankAimingComponent::BeginPlay()
 {

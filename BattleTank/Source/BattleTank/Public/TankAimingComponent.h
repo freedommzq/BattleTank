@@ -36,6 +36,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Action")
 	void Fire();
 
+	EFiringStatus GetFiringStatus() const;
+
 protected:
 	// Since we only need to set the aim point's color by this status, "BlueprintReadOnly" is enough
 	// And we need to read it, so the protected is needed as well
