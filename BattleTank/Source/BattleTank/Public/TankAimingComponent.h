@@ -25,7 +25,7 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
@@ -37,6 +37,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Action")
 	void Fire();
 
+	UFUNCTION(BlueprintCallable, Category = "State")
+	inline int32 GetAmmoCount() const { return AmmoCount; }
+
 	EFiringStatus GetFiringStatus() const;
 
 protected:
@@ -44,9 +47,6 @@ protected:
 	// And we need to read it, so the protected is needed as well
 	UPROPERTY(BlueprintReadOnly)
 	EFiringStatus FiringStatus = EFiringStatus::Locked;
-
-	UPROPERTY(BlueprintReadOnly)
-	int AmmoCount = 3;
 
 private:
 	// Called when the game starts
@@ -68,6 +68,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float ReloadTimeInSeconds = 3.0;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	int32 AmmoCount = 3;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AProjectile> ProjectileClass;
